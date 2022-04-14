@@ -27,6 +27,10 @@ const nextConfig = {
         source: "/api/movies/posters/:path*",
         destination: `${IMAGE_API_HOST}/:path*?${API_KEY}`,
       },
+      {
+        source: "/api/movies/:id",
+        destination: `${API_HOST}movie/:id?${API_KEY}`,
+      },
     ];
   },
 };

@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 
 import { HOST } from "../Constants";
 import Image from "next/image";
+import Link from "next/link";
 import Seo from "../components/Seo";
+import { useRouter } from "next/router";
 
 const fetchPopular = async () => {
   const data = await fetch(`${HOST}api/movies`);
@@ -22,6 +24,7 @@ export const getServerSideProps = async () => {
 };
 
 const Home = ({ results }: any) => {
+  const router = useRouter();
   // const [movies, setMovies] = useState([]);
 
   // console.log(results);
@@ -40,16 +43,45 @@ const Home = ({ results }: any) => {
     // fetchPopular();
   }, []);
 
+  const handleClick = (id: string, title: string) => {
+    router.push(
+      {
+        pathname: `/movies/${id}`,
+        query: {
+          title,
+        },
+      },
+      `/movies/${id}`
+    );
+  };
+
   return (
     <div className="container">
       <Seo title="Home" />
       {/* {movies.length === 0 && <h4>Loading...</h4>} */}
       {results?.map((movie: any) => (
-        <div className="movie" key={movie?.id}>
+        <div
+          className="movie"
+          key={movie?.id}
+          onClick={() => handleClick(movie.id, movie.original_title)}
+        >
           <img src={`/api/movies/posters${movie.poster_path}`} />
-          <h4>{movie?.original_title}</h4>
+          <h4>
+            <Link
+              href={{
+                pathname: `/movies/${movie.id}`,
+                query: {
+                  title: movie.original_title,
+                },
+              }}
+              as={`/movies/${movie.id}`}
+            >
+              <a>{movie?.original_title}</a>
+            </Link>
+          </h4>
         </div>
       ))}
+
       <style jsx>{`
         .container {
           display: grid;
