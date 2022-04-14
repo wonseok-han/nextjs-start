@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 const NavBar = () => {
   const router = useRouter();
 
-  console.log(router);
+  router;
   return (
     <nav>
       <Link href="/">

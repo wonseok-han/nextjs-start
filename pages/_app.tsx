@@ -1,12 +1,25 @@
 import "../styles/globals.css";
 
-import NavBar2 from "../components/NavBar2";
+import Layout from "../components/Layout";
+import Seo from "../components/Seo";
+import { useRouter } from "next/router";
 
 const App = ({ Component, pageProps }: any) => {
+  const router = useRouter();
+  const pathname = router.pathname;
+
   return (
     <>
-      <NavBar2 />
-      <Component {...pageProps} />
+      <Seo
+        title={
+          pathname === "/"
+            ? "Home"
+            : pathname.substring(pathname.lastIndexOf("/") + 1)
+        }
+      />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
       <style jsx global>{`
         a {
           font-size: 20px;
