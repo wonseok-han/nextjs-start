@@ -1,4 +1,3 @@
-import { API_KEY, IMAGE_API_HOST } from "../Constants";
 import { useEffect, useState } from "react";
 
 import Image from "next/image";
@@ -27,7 +26,7 @@ const Home = () => {
       {movies.length === 0 && <h4>Loading...</h4>}
       {movies?.map((movie: any) => (
         <div className="movie" key={movie?.id}>
-          <img src={`/api/movies/posters/${movie.poster_path}`} />
+          <img src={`/api/movies/posters${movie.poster_path}`} />
           <h4>{movie?.original_title}</h4>
         </div>
       ))}
