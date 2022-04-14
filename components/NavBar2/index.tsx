@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 const NavBar = () => {
   const router = useRouter();
+
   return (
     <nav>
       <img src="/vercel.svg" />
