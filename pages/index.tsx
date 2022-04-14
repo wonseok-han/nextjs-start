@@ -1,30 +1,50 @@
 import { useEffect, useState } from "react";
 
+import { HOST } from "../Constants";
 import Image from "next/image";
 import Seo from "../components/Seo";
 
-const Home = () => {
-  const [movies, setMovies] = useState([]);
+const fetchPopular = async () => {
+  const data = await fetch(`${HOST}api/movies`);
+  const { results } = await data.json();
 
-  const fetchPopular = async () => {
-    const data = await fetch("/api/movies");
+  return results;
+};
 
-    if (data) {
-      const { results } = await data.json();
+export const getServerSideProps = async () => {
+  const results = await fetchPopular();
 
-      setMovies(results);
-    }
+  return {
+    props: {
+      results,
+    },
   };
+};
+
+const Home = ({ results }: any) => {
+  // const [movies, setMovies] = useState([]);
+
+  // console.log(results);
+
+  // const fetchPopular = async () => {
+  //   const data = await fetch("/api/movies");
+
+  //   if (data) {
+  //     const { results } = await data.json();
+
+  //     setMovies(results);
+  //   }
+  // };
 
   useEffect(() => {
-    fetchPopular();
+    // fetchPopular();
   }, []);
 
   return (
     <div className="container">
       <Seo title="Home" />
-      {movies.length === 0 && <h4>Loading...</h4>}
-      {movies?.map((movie: any) => (
+      {/* {movies.length === 0 && <h4>Loading...</h4>} */}
+      {results?.map((movie: any) => (
         <div className="movie" key={movie?.id}>
           <img src={`/api/movies/posters${movie.poster_path}`} />
           <h4>{movie?.original_title}</h4>
@@ -36,6 +56,9 @@ const Home = () => {
           grid-template-columns: 1fr 1fr;
           padding: 20px;
           gap: 20px;
+        }
+        .movie {
+          cursor: pointer;
         }
         .movie img {
           max-width: 100%;
