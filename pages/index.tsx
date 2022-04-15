@@ -44,15 +44,7 @@ const Home = ({ results }: any) => {
   }, []);
 
   const handleClick = (id: string, title: string) => {
-    router.push(
-      {
-        pathname: `/movies/${id}`,
-        query: {
-          title,
-        },
-      },
-      `/movies/${id}`
-    );
+    router.push(`/movies/${title}/${id}`);
   };
 
   return (
@@ -65,17 +57,9 @@ const Home = ({ results }: any) => {
           key={movie?.id}
           onClick={() => handleClick(movie.id, movie.original_title)}
         >
-          <img src={`/api/movies/posters${movie.poster_path}`} />
+          <img src={`/api/movies/posters/w500${movie.poster_path}`} />
           <h4>
-            <Link
-              href={{
-                pathname: `/movies/${movie.id}`,
-                query: {
-                  title: movie.original_title,
-                },
-              }}
-              as={`/movies/${movie.id}`}
-            >
+            <Link href={`/movies/${movie.original_title}/${movie.id}`}>
               <a>{movie?.original_title}</a>
             </Link>
           </h4>
